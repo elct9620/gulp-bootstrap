@@ -1,0 +1,29 @@
+{
+  "name": "gulp-bootstrap",
+  "version": "0.1.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "~3.5.5",
+    "coffee-script": "*",
+    "gulp-util": "~2.2.14",
+    "gulp-compass": "~1.1.4",
+    "gulp-ejs": "~0.2.1",
+    "gulp-coffee": "~1.4.1",
+    "gulp-bower": "0.0.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/elct9620/gulp-bootstrap.git"
+  },
+  "author": "Zheng Xian Qiu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elct9620/gulp-bootstrap/issues"
+  },
+  "homepage": "https://github.com/elct9620/gulp-bootstrap"
+}
