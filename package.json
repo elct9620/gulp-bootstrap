@@ -18,7 +18,11 @@
     "gulp-notify": "~1.1.0",
     "gulp-imagemin": "~0.1.5",
     "gulp-rename": "~1.2.0",
-    "gulp-concat": "~2.1.7"
+    "gulp-concat": "~2.1.7",
+    "gulp-livereload": "~1.2.0",
+    "express": "~3.5.0",
+    "tiny-lr": "0.0.5",
+    "gulp-changed": "~0.2.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
