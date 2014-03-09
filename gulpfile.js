@@ -3,4 +3,4 @@
 // Enable CoffeeScript Support
 require("coffee-script/register");
 // Load Task
-require("./tasks/main.coffee");
+require("./gulpfile.coffee");
