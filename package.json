@@ -22,7 +22,7 @@
     "gulp-livereload": "~1.2.0",
     "express": "~3.5.0",
     "tiny-lr": "0.0.5",
-    "gulp-changed": "~0.2.1"
+    "gulp-cached": "0.0.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

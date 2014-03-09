@@ -15,8 +15,6 @@ npm-debug.log
 node_modules
 
 .sass-cache
-stylesheets
-javascripts
-vendor
+app/stylesheets
 bower_components
 dist

@@ -6,13 +6,14 @@ gulp = require("gulp")
 gutil = require("gulp-util")
 notify = require("gulp-notify")
 rename = require("gulp-rename")
-changed = require("gulp-changed")
+cache = require("gulp-cached")
 
-SASS_PATH = "sass/**/*.scss"
-COFFEE_PATH = "coffeescripts/**/*.coffee"
-IMAGES_PATH = "images/**/*"
-EJS_TEMPLATE = ["**/*.html", "**/*.ejs"]
-EJS_IGNORE_TEMPLATE = ["!node_modules/**/*", "!**/_*.ejs", "!dist/**/*"]
+APP_PATH = "app/"
+SASS_PATH = APP_PATH + "sass/**/*.scss"
+COFFEE_PATH = APP_PATH + "coffeescripts/**/*.coffee"
+IMAGES_PATH = APP_PATH + "images/**/*"
+EJS_TEMPLATE = [APP_PATH + "**/*.html", APP_PATH + "**/*.ejs"]
+EJS_IGNORE_TEMPLATE = [APP_PATH + "!**/_*.ejs"]
 DIST_PATH = "dist/"
 
 SERVER_PORT = 4000
@@ -28,9 +29,10 @@ minifyCSS = require("gulp-minify-css")
 
 gulp.task "compass", ->
   gulp.src SASS_PATH
-      .pipe changed(DIST_PATH + "stylesheets/")
+      .pipe cache("compass")
       .pipe compass({
-        config_file: "config.rb"
+        config_file: __dirname + "/config.rb"
+        project: __dirname + "/" + APP_PATH
         css: "stylesheets/"
       })
       .on "error", gutil.log
@@ -54,14 +56,16 @@ uglify = require("gulp-uglify")
 
 gulp.task "coffee", ->
   gulp.src COFFEE_PATH
-      .pipe changed(DIST_PATH + "javascripts/")
+      .pipe cache("coffee")
       .pipe coffee()
       .on "error", gutil.log
       .pipe gulp.dest(DIST_PATH + "javascripts/")
       .pipe concat("main.js")
+      .on "error", gutil.log
       .pipe gulp.dest(DIST_PATH + "javascripts/")
       .pipe rename({suffix: ".min"})
       .pipe uglify()
+      .on "error", gutil.log
       .pipe gulp.dest(DIST_PATH + "javascripts/")
       .pipe notify({message: "CoffeeScript task complete."})
 
@@ -70,7 +74,7 @@ ejs = require("gulp-ejs")
 
 gulp.task "ejs", ->
   gulp.src EJS_TEMPLATE.concat(EJS_IGNORE_TEMPLATE)
-      .pipe changed(DIST_PATH, {extension: ".html"})
+      .pipe cache("ejs")
       .pipe ejs()
       .on "error", gutil.log
       .pipe gulp.dest(DIST_PATH)
