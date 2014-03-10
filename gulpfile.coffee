@@ -17,6 +17,7 @@ COFFEE_PATH = APP_PATH + "coffeescripts/**/*.coffee"
 IMAGES_PATH = APP_PATH + "images/**/*"
 EJS_TEMPLATE = [APP_PATH + "**/*.html", APP_PATH + "**/*.ejs"]
 EJS_IGNORE_TEMPLATE = [APP_PATH + "!**/_*.ejs"]
+TEST_PATH = ["tests/**/*.coffee", "tests/**/*.js"]
 DIST_PATH = "dist/"
 
 # Static Server
@@ -96,6 +97,16 @@ gulp.task "images", ->
       .pipe imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })
       .pipe gulp.dest(DIST_PATH + "images/")
       .pipe notify({message: "Images task complete."})
+
+# Test
+mocha = require("gulp-mocha")
+
+gulp.task "test", ->
+  require("chai").should()
+  gulp.src TEST_PATH
+      .pipe mocha({
+        reporter: "spec"
+      })
 
 # Bump
 bump = require("gulp-bump")
