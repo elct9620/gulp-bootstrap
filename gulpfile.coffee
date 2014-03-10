@@ -4,10 +4,13 @@
 
 gulp = require("gulp")
 gutil = require("gulp-util")
+gulpif = require("gulp-if")
 notify = require("gulp-notify")
 rename = require("gulp-rename")
 cache = require("gulp-cached")
+args   = require('yargs').argv
 
+# Settings
 APP_PATH = "app/"
 SASS_PATH = APP_PATH + "sass/**/*.scss"
 COFFEE_PATH = APP_PATH + "coffeescripts/**/*.coffee"
@@ -16,12 +19,17 @@ EJS_TEMPLATE = [APP_PATH + "**/*.html", APP_PATH + "**/*.ejs"]
 EJS_IGNORE_TEMPLATE = [APP_PATH + "!**/_*.ejs"]
 DIST_PATH = "dist/"
 
+# Static Server
 SERVER_PORT = 4000
 SERVER_ROOT = __dirname + "/" + DIST_PATH
 LIEVRELOAD_PORT = 35729
 
 livereload = require("gulp-livereload")
 server = null
+
+# Arguments
+bumpVersion = args.bumpVersion
+bumpType = args.type
 
 # Compass
 compass = require("gulp-compass")
@@ -89,6 +97,15 @@ gulp.task "images", ->
       .pipe gulp.dest(DIST_PATH + "images/")
       .pipe notify({message: "Images task complete."})
 
+# Bump
+bump = require("gulp-bump")
+
+gulp.task "bump", ->
+  bumpType ||= "patch"
+  gulp.src ["package.json", "bower.json"]
+      .pipe bump({type: bumpType, version: bumpVersion})
+      .pipe gulp.dest("./")
+
 # Watch
 gulp.task "watch", ->
   gulp.watch "bower.json", ["bower"]
@@ -123,6 +140,12 @@ gulp.task "server", ["build", "watch"], ->
 
 # Build
 gulp.task "build", ["bower", "compass", "coffee", "images", "ejs"]
+
+# Release
+gulp.task "release", ["clean", "build"], ->
+  bumpType ||= "minor"
+  gulp.start("bump")
+  gutil.log "This feature still not finished"
 
 # Default Task
 gulp.task "default", ["clean", "build"]
